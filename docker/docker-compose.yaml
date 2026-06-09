@@ -68,7 +68,6 @@ x-shared-api-worker-config: &shared-api-worker-config
     - ./.env
   networks:
     - ssrf_proxy_network
-    - default
   restart: always
 
 x-shared-worker-config: &shared-worker-config
@@ -134,7 +133,6 @@ x-shared-worker-config: &shared-worker-config
     - ./.env
   networks:
     - ssrf_proxy_network
-    - default
   restart: always
 
 x-shared-worker-beat-config: &shared-worker-beat-config
@@ -200,7 +198,6 @@ x-shared-worker-beat-config: &shared-worker-beat-config
     - ./.env
   networks:
     - ssrf_proxy_network
-    - default
   restart: always
 
 services:
@@ -265,7 +262,6 @@ services:
       start_period: 30s
     networks:
       - ssrf_proxy_network
-      - default
 
   # WebSocket service for workflow collaboration.
   api_websocket:
@@ -333,7 +329,6 @@ services:
       disable: ${COMPOSE_WORKER_HEALTHCHECK_DISABLED:-true}
     networks:
       - ssrf_proxy_network
-      - default
 
   # worker_beat service
   # Celery beat for scheduling periodic tasks.
@@ -368,7 +363,6 @@ services:
       disable: ${COMPOSE_WORKER_HEALTHCHECK_DISABLED:-true}
     networks:
       - ssrf_proxy_network
-      - default
 
   # Frontend web application.
   web:
@@ -633,7 +627,6 @@ services:
       SANDBOX_PORT: ${SANDBOX_PORT:-8194}
     networks:
       - ssrf_proxy_network
-      - default
 
   # Certbot service
   # use `docker-compose --profile certbot up` to start the certbot service.
