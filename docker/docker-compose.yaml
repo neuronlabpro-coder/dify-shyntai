@@ -68,6 +68,7 @@ x-shared-api-worker-config: &shared-api-worker-config
     - ./.env
   networks:
     - ssrf_proxy_network
+    - default
   restart: always
 
 x-shared-worker-config: &shared-worker-config
@@ -133,6 +134,7 @@ x-shared-worker-config: &shared-worker-config
     - ./.env
   networks:
     - ssrf_proxy_network
+    - default
   restart: always
 
 x-shared-worker-beat-config: &shared-worker-beat-config
@@ -198,6 +200,7 @@ x-shared-worker-beat-config: &shared-worker-beat-config
     - ./.env
   networks:
     - ssrf_proxy_network
+    - default
   restart: always
 
 services:
@@ -262,6 +265,7 @@ services:
       start_period: 30s
     networks:
       - ssrf_proxy_network
+      - default
 
   # WebSocket service for workflow collaboration.
   api_websocket:
@@ -329,6 +333,7 @@ services:
       disable: ${COMPOSE_WORKER_HEALTHCHECK_DISABLED:-true}
     networks:
       - ssrf_proxy_network
+      - default
 
   # worker_beat service
   # Celery beat for scheduling periodic tasks.
@@ -363,6 +368,7 @@ services:
       disable: ${COMPOSE_WORKER_HEALTHCHECK_DISABLED:-true}
     networks:
       - ssrf_proxy_network
+      - default
 
   # Frontend web application.
   web:
@@ -376,6 +382,7 @@ services:
       - ./.env
     environment:
       CONSOLE_API_URL: ${CONSOLE_API_URL:-}
+      SERVER_CONSOLE_API_URL: ${SERVER_CONSOLE_API_URL:-http://api:5001}
       APP_API_URL: ${APP_API_URL:-}
       AMPLITUDE_API_KEY: ${AMPLITUDE_API_KEY:-}
       NEXT_PUBLIC_COOKIE_DOMAIN: ${NEXT_PUBLIC_COOKIE_DOMAIN:-}
@@ -627,6 +634,7 @@ services:
       SANDBOX_PORT: ${SANDBOX_PORT:-8194}
     networks:
       - ssrf_proxy_network
+      - default
 
   # Certbot service
   # use `docker-compose --profile certbot up` to start the certbot service.
@@ -1182,10 +1190,12 @@ networks:
   # create a network between sandbox, api and ssrf_proxy, and can not access outside.
   ssrf_proxy_network:
     driver: bridge
+    internal: true
   milvus:
     driver: bridge
   opensearch-net:
     driver: bridge
+    internal: true
 
 volumes:
   oradata:
