@@ -266,6 +266,7 @@ services:
     networks:
       - ssrf_proxy_network
       - default
+      - dokploy-network
 
   # WebSocket service for workflow collaboration.
   api_websocket:
@@ -407,6 +408,9 @@ services:
       ENABLE_WEBSITE_JINAREADER: ${ENABLE_WEBSITE_JINAREADER:-true}
       ENABLE_WEBSITE_FIRECRAWL: ${ENABLE_WEBSITE_FIRECRAWL:-true}
       ENABLE_WEBSITE_WATERCRAWL: ${ENABLE_WEBSITE_WATERCRAWL:-true}
+    networks:
+      - default
+      - dokploy-network
 
   # The PostgreSQL database.
   db_postgres:
@@ -1194,6 +1198,8 @@ networks:
     driver: bridge
   opensearch-net:
     driver: bridge
+  dokploy-network:
+    external: true
 
 volumes:
   oradata:
